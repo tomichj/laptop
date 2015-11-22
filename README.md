@@ -23,6 +23,8 @@ What it sets up
 A *lot* of stuff. You should just look at the script.
 
 General categories: 
+* homebrew, brew-cask
+* command line utilities (coreutils, findutils, z, tree, etc)
 * ruby dev environment (ruby, rbenv, ruby-build, bundler, etc)
 * browsers (chrome, firefox)
 * utilities (alfred, super-duper, etc)
