@@ -37,7 +37,8 @@ General categories:
 License
 -------
 
-Postions of Laptop © 2011-2015 thoughtbot, inc.
+Portions of Laptop are © 2011-2015 thoughtbot, inc.
+
 It is free software, 
 and may be redistributed under the terms specified in the [LICENSE] file.
 
