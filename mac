@@ -184,7 +184,6 @@ brew_install_or_upgrade 'brew-cask'
 fancy_echo "Installing core apps and utilities"
 brew cask install dropbox 
 brew cask install transmission
-brew cask install skitch
 brew cask install firefox
 brew cask install caffeine
 brew cask install skype
