@@ -33,7 +33,7 @@ General categories:
 * ruby dev environment (ruby, rbenv, ruby-build, bundler, etc)
 * browsers (chrome, firefox)
 * utilities (alfred, super-duper, etc)
-* editors (textmade, sublime, atom, bbedit)
+* editors (textmate, sublime, atom, bbedit)
 * IDEs and developer tools (rubymine, sourcetree, heroku-toolbelt, etc)
 * quicklook plugins
 * fonts (inconsolata, sourcecode-pro)
