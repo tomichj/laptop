@@ -106,11 +106,6 @@ if ! command -v brew >/dev/null; then
     curl -fsS \
       'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
-    append_to_zshrc '# recommended by brew doctor'
-
-    # shellcheck disable=SC2016
-    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
-
     export PATH="/usr/local/bin:$PATH"
 else
   fancy_echo "Homebrew already installed. Skipping ..."
@@ -259,14 +254,9 @@ brew cleanup
 brew prune
 brew cask cleanup
 
+fancy_echo "Installing pow, the zero-conf rack server"
+curl get.pow.cx | sh
 
-# dot files!
-if [[ ! -d ~/.dotfiles ]]; then
-  fancy_echo "Installing tomichj/dotfiles"
-  git clone https://github.com/tomichj/dotfiles .dotfiles
-  ~/.dotfiles/script/bootstrap
-  ~/.dotfiles/bin/dot
-fi
-
-
+fancy_echo 'Set up your dotfiles now, be sure to include /usr/local/bin in your path, like this: export PATH="/usr/local/bin:$PATH"'
+fancy_echo 'Consider installing https://github.com/tomichj/dotfiles'
 

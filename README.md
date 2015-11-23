@@ -17,6 +17,11 @@ Download, review, then execute the script:
 bash <(curl -s https://raw.githubusercontent.com/tomichj/laptop/master/mac)
 ```
 
+Optionally, [install tomichj/dotfiles][dotfiles].
+
+[dotfiles]: https://github.com/tomichj/dotfiles#install
+
+
 
 What it sets up
 ---------------
