@@ -39,7 +39,6 @@ brew_install_or_upgrade() {
 
 brew_is_installed() {
   local name="$(brew_expand_alias "$1")"
-
   brew list -1 | grep -Fqx "$name"
 }
 
@@ -116,16 +115,23 @@ brew update
 
 fancy_echo "Setting up latest bash"
 brew_install_or_upgrade 'bash'
-sudo bash -c "echo '/usr/local/bin/bash' >> /etc/shells"
-chsh -s /usr/local/bin/bash
+
+if ! grep -q "/usr/local/bin/bash" /etc/shells; then
+  echo "adding /usr/loca/bin/bash to /etc/shells"
+  sudo bash -c "echo '/usr/local/bin/bash' >> /etc/shells"
+fi
+
+if [ $SHELL != "/usr/local/bin/bash" ]; then
+  chsh -s /usr/local/bin/bash
+fi
 
 brew_install_or_upgrade 'openssl'
 brew unlink openssl && brew link openssl --force
 
 brew_install_or_upgrade 'git'
+brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'imagemagick'
 brew_install_or_upgrade 'qt'
-brew_install_or_upgrade 'hub'
 brew_install_or_upgrade 'libyaml'
 brew_install_or_upgrade 'gnutls'
 brew_install_or_upgrade 'tree'
@@ -138,6 +144,20 @@ brew_install_or_upgrade 'findutils'
 brew_install_or_upgrade 'z'
 brew_install_or_upgrade 'grc'
 brew_install_or_upgrade 'spark'
+brew_install_or_upgrade 'curl'
+brew_install_or_upgrade 'fdupes'
+brew_install_or_upgrade 'freetype'
+brew_install_or_upgrade 'libpng'
+brew_install_or_upgrade 'libtiff'
+
+brew_install_or_upgrade 'redis'
+
+brew_install_or_upgrade 'x264'
+brew_install_or_upgrade 'xvid'
+brew_install_or_upgrade 'faac'
+brew_install_or_upgrade 'ffmpeg'
+brew_install_or_upgrade 'lame'
+
 
 
 ######################################################################
@@ -173,6 +193,7 @@ rbenv install -s 1.9.3-p547
 
 ############################################################################
 # cask installs: apps, fonts, etc
+echo "adding brew tap for caskroom/cask"
 brew_tap 'caskroom/cask'
 brew_install_or_upgrade 'brew-cask'
 
@@ -229,7 +250,8 @@ brew cask install vagrant
 
 fancy_echo "Installing homebrew completions"
 brew tap homebrew/completions
-brew install bash-completion docker-completion
+brew install bash-completion
+brew install docker-completion
 
 fancy_echo "Installing quicklook plugins"
 brew cask install qlcolorcode
