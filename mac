@@ -1,11 +1,10 @@
 #!/bin/bash
 
 ##
-## Macintosh laptop setup script, for developers.
+## Macintosh laptop setup script, for ruby developers.
 ##
 
-# consider checking for FDE instead of just enabling it.
-# sudo fdesetup enable
+set -e
 
 function pause() {
   read -p "$*" -n1
@@ -18,8 +17,6 @@ fancy_echo() {
   printf "\n$fmt\n" "$@"
 }
 
-set -e
-
 gem_install_or_update() {
   if gem list "$1" --installed > /dev/null; then
     fancy_echo "Updating %s ..." "$1"
@@ -31,17 +28,16 @@ gem_install_or_update() {
   fi
 }
 
-echo "Justin's Mac OS X Installation Script."
+fancy_echo "Justin's Mac OS X Installation Script, for ruby development."
 pause 'Ctrl-c to quit, or press any key to continue...'
 
-echo "Checking Homebrew"
+fancy_echo "Checking Homebrew"
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
-    curl -fsS \
-      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+  curl -fsS 'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
-    fancy_echo 'Add homebrew to your PATH, like so: export PATH="/usr/local/bin:$PATH"'
-    export PATH="/usr/local/bin:$PATH"
+  fancy_echo 'Add homebrew to your PATH, like so: export PATH="/usr/local/bin:$PATH"'
+  export PATH="/usr/local/bin:$PATH"
 else
   fancy_echo "Homebrew already installed. Skipping ..."
 fi
@@ -62,52 +58,53 @@ brew 'gnutls'
 brew 'tree'
 brew 'coreutils'
 brew 'findutils'
-brew 'z'
 brew 'grc'
 brew 'spark'
 brew 'imagemagick'
 brew 'libyaml' # after openssl
-brew 'switchaudio-osx'
-brew "the_silver_searcher"
+brew 'the_silver_searcher'
 
 brew 'rbenv'
 brew 'ruby-build'
-
+brew 'puma-dev'
 brew 'heroku/brew/heroku'
-
-cask 'dropbox'
-cask '1password'
-cask 'skype'
-cask 'flux'
-cask 'google-chrome'
-cask 'firefox'
 cask 'ngrok'
 
+cask 'google-chrome'
+cask 'firefox'
+
+cask 'postgres'
+cask 'redis-app'
+cask 'postico'
+
+cask 'sourcetree'
+cask 'diffmerge'
+cask 'github'
+
+
+
 cask 'alfred'
+cask 'skype'
+cask 'slack'
+cask 'dropbox'
+cask '1password'
+cask 'flux'
 cask 'keyboard-maestro'
 cask 'superduper'
 cask 'istat-menus'
 cask 'viscosity'
+brew 'switchaudio-osx'
+cask 'the-unarchiver'
 
 cask 'vlc'
 cask 'mplayerx'
 cask 'plex-media-server'
 cask 'plex-media-player'
 
-cask 'the-unarchiver'
-
 cask 'textmate'
 cask 'sublime-text'
 cask 'atom'
 cask 'jetbrains-toolbox'
-
-cask 'sourcetree'
-cask 'diffmerge'
-cask 'github'
-
-cask 'postgres'
-cask 'redis-app'
-cask 'postico'
 
 cask 'font-inconsolata'
 cask 'font-source-code-pro'
@@ -125,7 +122,7 @@ brew cleanup
 ######################################################################
 # Set up bash
 if ! grep -q "/usr/local/bin/bash" /etc/shells; then
-  echo "adding /usr/loca/bin/bash to /etc/shells"
+  fancy_echo "adding /usr/loca/bin/bash to /etc/shells"
   sudo bash -c "echo '/usr/local/bin/bash' >> /etc/shells"
 fi
 
@@ -136,10 +133,9 @@ fi
 
 ######################################################################
 # ruby setup
-
-# use rbenv to install ruby
 fancy_echo "Installing latest ruby..."
 
+# use rbenv to install ruby
 eval "$(rbenv init -)"
 ruby_version="$(rbenv install -l | sed -n 's/^[ ]*//p' | sed -n '/^[0-9]\.[0-9]\.[0-9]$/p' | tail -1)"
 if ! rbenv versions | grep -Fq "$ruby_version"; then
@@ -151,12 +147,18 @@ rbenv shell "$ruby_version"
 
 gem update --system
 
-# Bundler
-gem_install_or_update 'bundler'
-
+# configure Bundler
 fancy_echo "Configuring Bundler ..."
+gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
+
+
+#######################################################################
+# extra configuration 
+if [ -f "$HOME/.laptop.local" ]; then
+  . "$HOME/.laptop.local"
+fi
 
 fancy_echo 'Set up your dotfiles now, be sure to include /usr/local/bin in your path, like this: export PATH="/usr/local/bin:$PATH"'
 fancy_echo 'Consider installing https://github.com/tomichj/dotfiles'
