@@ -78,45 +78,10 @@ cask 'redis-app'
 cask 'postico'
 
 cask 'sourcetree'
-cask 'diffmerge'
 cask 'github'
-
-
-
-cask 'alfred'
-cask 'skype'
-cask 'slack'
-cask 'dropbox'
-cask '1password'
-cask 'flux'
-cask 'keyboard-maestro'
-cask 'superduper'
-cask 'istat-menus'
-cask 'viscosity'
-brew 'switchaudio-osx'
-cask 'the-unarchiver'
-
-cask 'vlc'
-cask 'mplayerx'
-cask 'plex-media-server'
-cask 'plex-media-player'
-
-cask 'textmate'
-cask 'sublime-text'
-cask 'atom'
-cask 'jetbrains-toolbox'
-
-cask 'font-inconsolata'
-cask 'font-source-code-pro'
-cask 'font-anonymous-pro'
-cask 'font-open-sans'
-cask 'font-roboto'
-cask 'font-source-code-pro'
-cask 'font-source-sans-pro'
+cask 'diffmerge'
 EOF
 
-fancy_echo 'Cleaning up old Homebrew formulae'
-brew cleanup
 
 
 ######################################################################
@@ -129,6 +94,7 @@ fi
 if [ $SHELL != "/usr/local/bin/bash" ]; then
   chsh -s /usr/local/bin/bash
 fi
+
 
 
 ######################################################################
@@ -152,6 +118,7 @@ fancy_echo "Configuring Bundler ..."
 gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
+
 
 
 #######################################################################
