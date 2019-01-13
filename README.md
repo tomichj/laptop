@@ -102,14 +102,14 @@ Databases and tools:
 [postico]: https://eggerapps.at/postico/
 
 
-Configuration
--------------
-rbenv and ruby-build are used to install the latest version of Ruby.
-rbenv is configured to use this version of ruby.
-Bundler is then installed and configured in the just-installed ruby.
+Latest ruby:
+* rbenv and ruby-build are used to install the latest version of Ruby
+* rbenv is configured to use this version of ruby
+* Bundler is then installed and configured in the just-installed ruby
 
-The latest version of bash is installed and added to /etc/shells.
-Your shell is switched to this bash.
+Bash:
+* The latest version of bash is installed and added to /etc/shells
+* Your shell is switched to bash
 
 
 Customize in `~/.laptop.local`
