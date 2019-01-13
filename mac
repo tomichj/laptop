@@ -127,6 +127,7 @@ if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
 
-fancy_echo 'Set up your dotfiles now, be sure to include /usr/local/bin in your path, like this: export PATH="/usr/local/bin:$PATH"'
+fancy_echo 'Set up your dotfiles now, be sure to include /usr/local/bin in your path, like this:'
+fancy_echo '  export PATH="/usr/local/bin:$PATH"'
 fancy_echo 'Consider installing https://github.com/tomichj/dotfiles'
 
