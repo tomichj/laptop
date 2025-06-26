@@ -117,121 +117,6 @@ if brew list | grep -Fq brew-cask; then
   brew uninstall --force brew-cask
 fi
 
-# fancy_echo "Updating Homebrew formulae ..."
-# brew update --force # https://github.com/Homebrew/brew/issues/1151
-# brew bundle --file=- <<EOF
-# tap "thoughtbot/formulae"
-# tap "homebrew/services"
-# tap "heroku/brew"
-
-# # Unix
-# brew "universal-ctags"
-# brew "git"
-# brew "openssl"
-# brew "rcm"
-# brew "reattach-to-user-namespace"
-# brew "the_silver_searcher"
-# brew "tmux"
-# brew "vim"
-# brew "watchman"
-# brew "zsh"
-
-# # Heroku
-# brew "heroku/brew/heroku"
-# brew "parity"
-
-# # GitHub
-# brew "gh"
-
-# # Image manipulation
-# brew "imagemagick"
-
-# # PDF Rendering
-# brew "poppler"
-
-# # Programming language prerequisites and package managers
-# brew "libyaml" # should come after openssl
-# brew "coreutils"
-# brew "yarn"
-# cask "gpg-suite-no-mail"
-
-# # Databases
-# brew "postgresql@14", restart_service: :changed
-# brew "redis", restart_service: :changed
-# EOF
-
-# fancy_echo "Update heroku binary ..."
-# brew unlink heroku
-# brew link --force heroku
-
-# fancy_echo "Configuring asdf version manager ..."
-# if [ ! -d "$HOME/.asdf" ]; then
-#   brew install asdf
-#   append_to_zshrc "source $(brew --prefix asdf)/libexec/asdf.sh" 1
-# fi
-
-# alias install_asdf_plugin=add_or_update_asdf_plugin
-# add_or_update_asdf_plugin() {
-#   local name="$1"
-#   local url="$2"
-
-#   if ! asdf plugin-list | grep -Fq "$name"; then
-#     asdf plugin-add "$name" "$url"
-#   else
-#     asdf plugin-update "$name"
-#   fi
-# }
-
-# # shellcheck disable=SC1091
-# . "$(brew --prefix asdf)/libexec/asdf.sh"
-# add_or_update_asdf_plugin "ruby" "https://github.com/asdf-vm/asdf-ruby.git"
-# add_or_update_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs.git"
-
-# install_asdf_language() {
-#   local language="$1"
-#   local version
-#   version="$(asdf list-all "$language" | grep -v "[a-z]" | tail -1)"
-
-#   if ! asdf list "$language" | grep -Fq "$version"; then
-#     asdf install "$language" "$version"
-#     asdf global "$language" "$version"
-#   fi
-# }
-
-# fancy_echo "Installing latest Ruby ..."
-# install_asdf_language "ruby"
-# gem update --system
-# number_of_cores=$(sysctl -n hw.ncpu)
-# bundle config --global jobs $((number_of_cores - 1))
-
-# fancy_echo "Installing latest Node ..."
-# install_asdf_language "nodejs"
-
-# if [ -f "$HOME/.laptop.local" ]; then
-#   fancy_echo "Running your customizations from ~/.laptop.local ..."
-#   # shellcheck disable=SC1091
-#   . "$HOME/.laptop.local"
-# fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ######################################################################
@@ -242,8 +127,6 @@ brew update
 fancy_echo "Fetching Brewfile from GitHub and installing packages..."
 BREWFILE_URL="https://raw.githubusercontent.com/tomichj/homebrew-brewfile/master/Brewfile"
 curl -fsSL "$BREWFILE_URL" | brew bundle --file=-
-
-
 
 
 
