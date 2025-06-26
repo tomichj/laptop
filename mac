@@ -28,7 +28,7 @@ gem_install_or_update() {
   fi
 }
 
-fancy_echo "Justin's Mac OS X Installation Script, for ruby development."
+fancy_echo "Justin's Mac OS X setup script"
 pause 'Ctrl-c to quit, or press any key to continue...'
 
 fancy_echo "Checking Homebrew"
@@ -42,82 +42,49 @@ else
   fancy_echo "Homebrew already installed. Skipping ..."
 fi
 
+
+######################################################################
+# install Homebrew packages
 fancy_echo "Updating Homebrew formulas ..."
 brew update
-brew bundle --file=- <<EOF
-tap 'caskroom/cask'
-tap 'heroku/brew'
-tap 'caskroom/fonts'
 
-brew 'bash'
-brew 'bash-completion'
-brew 'git'
-brew 'hub'
-brew 'openssl'
-brew 'gnutls'
-brew 'tree'
-brew 'coreutils'
-brew 'findutils'
-brew 'grc'
-brew 'spark'
-brew 'imagemagick'
-brew 'libyaml' # after openssl
-brew 'the_silver_searcher'
-
-brew 'rbenv'
-brew 'ruby-build'
-brew 'puma-dev'
-brew 'heroku/brew/heroku'
-cask 'ngrok'
-
-cask 'google-chrome'
-cask 'firefox'
-
-cask 'postgres'
-cask 'redis-app'
-cask 'postico'
-
-cask 'sourcetree'
-cask 'github'
-cask 'diffmerge'
-EOF
+fancy_echo "Fetching Brewfile from GitHub and installing packages..."
+BREWFILE_URL="https://raw.githubusercontent.com/tomichj/homebrew-brewfile/master/Brewfile"
+curl -fsSL "$BREWFILE_URL" | brew bundle --file=-
 
 
 
 ######################################################################
-# Set up bash
-if ! grep -q "/usr/local/bin/bash" /etc/shells; then
-  fancy_echo "adding /usr/loca/bin/bash to /etc/shells"
-  sudo bash -c "echo '/usr/local/bin/bash' >> /etc/shells"
-fi
-
-if [ $SHELL != "/usr/local/bin/bash" ]; then
-  chsh -s /usr/local/bin/bash
-fi
+# Dotfiles
+fancy_echo "Setting up dotfiles..."
+git clone https://github.com/holman/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+script/bootstrap
 
 
+cd ~
 
-######################################################################
-# ruby setup
-fancy_echo "Installing latest ruby..."
+# ######################################################################
+# # ruby setup
+# fancy_echo "Installing latest ruby..."
 
-# use rbenv to install ruby
-eval "$(rbenv init -)"
-ruby_version="$(rbenv install -l | sed -n 's/^[ ]*//p' | sed -n '/^[0-9]\.[0-9]\.[0-9]$/p' | tail -1)"
-if ! rbenv versions | grep -Fq "$ruby_version"; then
-  rbenv install -s "$ruby_version"
-fi
+# # use rbenv to install ruby
+# eval "$(rbenv init -)"
+# ruby_version="$(rbenv install -l | sed -n 's/^[ ]*//p' | sed -n '/^[0-9]\.[0-9]\.[0-9]$/p' | tail -1)"
+# if ! rbenv versions | grep -Fq "$ruby_version"; then
+#   rbenv install -s "$ruby_version"
+# fi
 
-rbenv global "$ruby_version"
-rbenv shell "$ruby_version"
+# rbenv global "$ruby_version"
+# rbenv shell "$ruby_version"
 
-gem update --system
+# gem update --system
 
-# configure Bundler
-fancy_echo "Configuring Bundler ..."
-gem_install_or_update 'bundler'
-number_of_cores=$(sysctl -n hw.ncpu)
-bundle config --global jobs $((number_of_cores - 1))
+# # configure Bundler
+# fancy_echo "Configuring Bundler ..."
+# gem_install_or_update 'bundler'
+# number_of_cores=$(sysctl -n hw.ncpu)
+# bundle config --global jobs $((number_of_cores - 1))
 
 
 
@@ -126,8 +93,4 @@ bundle config --global jobs $((number_of_cores - 1))
 if [ -f "$HOME/.laptop.local" ]; then
   . "$HOME/.laptop.local"
 fi
-
-fancy_echo 'Set up your dotfiles now, be sure to include /usr/local/bin in your path, like this:'
-fancy_echo '  export PATH="/usr/local/bin:$PATH"'
-fancy_echo 'Consider installing https://github.com/tomichj/dotfiles'
 
