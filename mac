@@ -34,7 +34,9 @@ pause 'Ctrl-c to quit, or press any key to continue...'
 fancy_echo "Checking Homebrew"
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
-  curl -fsS 'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+  # curl -fsS 'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   fancy_echo 'Add homebrew to your PATH, like so: export PATH="/usr/local/bin:$PATH"'
   export PATH="/usr/local/bin:$PATH"
