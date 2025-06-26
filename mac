@@ -133,7 +133,11 @@ curl -fsSL "$BREWFILE_URL" | brew bundle --file=-
 ######################################################################
 # Dotfiles
 fancy_echo "Setting up dotfiles..."
-git clone https://github.com/holman/dotfiles.git ~/.dotfiles
+if [ ! -d ~/.dotfiles ]; then
+  fancy_echo "Cloning dotfiles..."
+  git clone https://github.com/holman/dotfiles.git ~/.dotfiles
+fi
+fancy_echo "Boostrapping dotfiles..."
 cd ~/.dotfiles
 script/bootstrap
 cd ~
